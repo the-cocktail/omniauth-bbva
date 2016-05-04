@@ -20,9 +20,6 @@ module Bbva
             super TOKEN_PATH
           end
 
-          def refresh_token_old
-            super TOKEN_PATH
-          end
 
           #User Accounts information (index or show)
           def accounts id=nil
