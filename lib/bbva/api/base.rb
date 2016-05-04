@@ -1,4 +1,5 @@
 require 'httparty'
+require 'rest-client'
 module Bbva
   module Api
     
