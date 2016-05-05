@@ -14,15 +14,10 @@ module OmniAuth
 
     #DEFAULT SANDBOX URI
     SBX_SITE          = 'https://connect.bbva.com'
-    SBX_AUTH_URL      = 'https://connect.bbva.com/sandboxconnect'
+    SBX_AUTHORIZE_URL = 'https://connect.bbva.com/sandboxconnect'
     SBX_TOKEN_URL     = 'https://connect.bbva.com/token'
-    SBX_REDIRECT_URI  = 'http://localhost:3000/auth/bbva/callback'
+    SBX_CALLBACK      = 'http://localhost:3000/auth/bbva/callback'
 
-    #DEFAULT PRODUCTION URI
-    PRO_SITE          = 'https://connect.bbva.com'
-    PRO_AUTH_URL      = 'https://connect.bbva.com/sandboxconnect'
-    PRO_TOKEN_URL     = 'https://connect.bbva.com/token'
-    PRO_REDIRECT_URI  = 'http://localhost:3000/auth/bbva/callback'
 
     class Bbva
       include OmniAuth::Strategy
@@ -62,17 +57,13 @@ module OmniAuth
       #Setup client_options
       #TODO: it is only available sandbox environment, pending to setup the production one
       def setup_phase
-        if options.environment == 'production'
-          options.client_options.site           = options.site          || PRO_SITE
-          options.client_options.authorize_url  = options.authorize_url || PRO_AUTH_URL
-          options.client_options.token_url      = options.token_url     || PRO_TOKEN_URL
-          options.client_options.redirect_uri   = options.redirect_uri  || PRO_REDIRECT_URI
-        else
-          options.client_options.site           = options.site          || SBX_SITE
-          options.client_options.authorize_url  = options.authorize_url || SBX_AUTH_URL
-          options.client_options.token_url      = options.token_url     || SBX_TOKEN_URL
-          options.client_options.redirect_uri   = options.redirect_uri  || SBX_REDIRECT_URI
+        ['site','authorize_url','token_url','callback' ].each do |param|
+          OmniAuth.logger.warn("[setup_phase] '#{param}' param is not set, using by default: #{eval("SBX_"+ param.upcase) } ")  unless options.try(param)
         end
+        options.client_options.site           = options.site          || SBX_SITE
+        options.client_options.authorize_url  = options.authorize_url || SBX_AUTHORIZE_URL
+        options.client_options.token_url      = options.token_url     || SBX_TOKEN_URL
+        options.client_options.redirect_uri   = options.callback      || SBX_CALLBACK
       end
 
       def request_phase
@@ -102,9 +93,12 @@ module OmniAuth
         if error
           fail!(error, CallbackError.new(request.params["error"], request.params["error_description"] || request.params["error_reason"], request.params["error_uri"]))
         #TODO: uncomment this when the 'state' parameter will be received
-        # elsif !options.provider_ignores_state && (request.params["state"].to_s.empty? || request.params["state"] != session.delete("omniauth.state"))
+        #elsif !options.provider_ignores_state && (request.params["state"].to_s.empty? || request.params["state"] != session.delete("omniauth.state"))
         #   fail!(:csrf_detected, CallbackError.new(:csrf_detected, "CSRF detected (missing or incorrect 'state' )"))
         else
+          if !options.provider_ignores_state && (request.params["state"].to_s.empty? || request.params["state"] != session.delete("omniauth.state"))
+            OmniAuth.logger.warn("[callback_phase] 'state' param has been not received in the request")
+          end
           self.access_token = build_access_token
           self.access_token = access_token.refresh! if access_token.expired?
           super
