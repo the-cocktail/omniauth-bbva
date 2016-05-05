@@ -23,44 +23,28 @@ module Bbva
 
           #User Accounts information (index or show)
           def accounts id=nil
-            perform_get(id ? "#{ACCOUNTS_PATH}/#{id}" : ACCOUNTS_PATH)
+            data = perform_get(id ? "#{ACCOUNTS_PATH}/#{id}" : ACCOUNTS_PATH)
+            id ? (data[:account] || {}) : (data[:accounts] || [])
           end
 
           def transactions account_id
-            perform_get("#{ACCOUNTS_PATH}/#{account_id}/transactions")
+            data = perform_get("#{ACCOUNTS_PATH}/#{account_id}/transactions")
+            data[:accountTransactions]  || []
           end
 
           #User Accounts information
           def identity
-            perform_get(IDENTITY_PATH)
+            data = perform_get(IDENTITY_PATH)
+            data[:client] || {}
           end
 
           #User Cards information (index or show)
           def cards id=nil
-            perform_get(id ? "#{CARDS_PATH}/#{id}" : CARDS_PATH)
+            data = perform_get(id ? "#{CARDS_PATH}/#{id}" : CARDS_PATH)
+            id ? (data[:card] || {}) : (data[:cards] || [])
           end
 
-          # def transfer
-          #   body = {
-          #     "transfer": {
-          #       "accountId": "ES0182002000000000000000000040773403XXXXXXXXX",
-          #       "remoteAccount": {
-          #         "name": "Yanis Varoufakis",
-          #         "number": "ES8101822082180000012345",
-          #         "type": "iban"    
-          #       },
-          #       "value": {
-          #         "amount": "100.01",
-          #         "currency": "EUR"
-          #       },
-          #       "expensesType": {
-          #         "id": "A"
-          #       },
-          #       "description": "Send money to Varoufakis"
-          #     }
-          #   }
-          #   perform_post("me/transfers", body) 
-          # end          
+        
         end
       end
     

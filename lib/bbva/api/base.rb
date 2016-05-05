@@ -38,30 +38,6 @@ module Bbva
             JSON.parse(response)["data"].with_indifferent_access
         end
 
-        # def perform_post_httparty
-        #   url = "https://apis.bbva.com/money-transfers-sbx/v1/me/transfers"
-        #   opts = {
-        #     body: body.to_json,
-        #     :headers => { 
-        #       "Authorization" => "Basic #{Base64.strict_encode64("#{@client_id}:#{@secret}")}",
-        #       "Content-Type" => "application/json"
-        #     }
-        #   }
-        #   HTTParty.post(url,opts)
-        # end
-
-
-        # def perform_post path, body
-        #   url = "https://apis.bbva.com/money-transfers-sbx/v1/me/transfers"
-        #   binding.pry
-        #   RestClient.post url,
-        #   {:body => body},
-        #     :content_type => "application/json",
-        #     :Authorization => "Basic #{Base64.strict_encode64("#{@client_id}:#{@secret}")}"   
-        # end
-
-
-
     end
 
   end

@@ -60,6 +60,7 @@ module OmniAuth
       end
 
       #Setup client_options
+      #TODO: it is only available sandbox environment, pending to setup the production one
       def setup_phase
         if options.environment == 'production'
           options.client_options.site           = options.site          || PRO_SITE
@@ -100,6 +101,7 @@ module OmniAuth
         error = request.params["error_reason"] || request.params["error"]
         if error
           fail!(error, CallbackError.new(request.params["error"], request.params["error_description"] || request.params["error_reason"], request.params["error_uri"]))
+        #TODO: uncomment this when the 'state' parameter will be received
         # elsif !options.provider_ignores_state && (request.params["state"].to_s.empty? || request.params["state"] != session.delete("omniauth.state"))
         #   fail!(:csrf_detected, CallbackError.new(:csrf_detected, "CSRF detected (missing or incorrect 'state' )"))
         else
