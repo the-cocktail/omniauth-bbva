@@ -1,10 +1,8 @@
-require 'httparty'
 require 'rest-client'
 module Bbva
   module Api
     
     class Base
-      include HTTParty
       attr_accessor :token, :secret, :code, :refresh_token, :client_id
 
       def initialize(options = {})

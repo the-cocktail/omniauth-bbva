@@ -1,9 +1,5 @@
 source "http://rubygems.org"
 
-gem "rake"
-gem "oauth2"
-gem "httparty"
-gem "rest-client"
 
 group :test do
   gem "coveralls"

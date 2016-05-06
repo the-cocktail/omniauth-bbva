@@ -5,8 +5,7 @@ require "omniauth-bbva/version"
 Gem::Specification.new do |gem|
   gem.add_dependency "oauth2",     "~> 1.0"
   gem.add_dependency "omniauth",   "~> 1.2"
-  gem.add_dependency "httparty"
-  gem.add_dependency "rest-client"
+  gem.add_dependency "rest-client","~> 1.6"
 
   gem.add_development_dependency "bundler", "~> 1.0"
 
@@ -14,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["abian.marrero@the-cocktail.com"]
   gem.description   = "BBVA Oauth2 API"
   gem.summary       = gem.description
-  gem.homepage      = "https://github.com/abmm/omniauth-bbva"
+  gem.homepage      = "https://github.com/the-cocktail/omniauth-bbva"
   gem.licenses      = %w(MIT)
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").collect { |f| File.basename(f) }

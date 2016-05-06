@@ -1,3 +1,4 @@
 coverage/*
 spec/*
 todo.txt
+Gemfile.lock
