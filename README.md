@@ -1,7 +1,7 @@
 
 # Omniauth BBVA
 
-This gem contains an OAuth2 strategy for BBVA API MARKET. It is based in the generic omniauth-oath2.
+This gem contains an OAuth2 strategy for BBVA API MARKET. It is based on [omniauth](https://github.com/intridea/omniauth).
 
 ##### How to use in Rails:
 - Add bbva provider to your config/omniauth.rb
