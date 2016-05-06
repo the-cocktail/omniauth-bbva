@@ -6,7 +6,7 @@ This gem contains an OAuth2 strategy for BBVA API MARKET. It is based in the gen
 ##### How to use in Rails:
 - Add bbva provider to your config/omniauth.rb
 
-````
+```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
   args = {
     site:           ENV['BBVA_SITE'], 
@@ -22,14 +22,14 @@ end
 
 - Define your callback route in routes.rb
 
-```
+```ruby
   #BBVA Omniauth callback
   get '/auth/:bbva/callback', :to => 'sessions#create'
 ```
 
 The callback will receive the 'credentials' in ```request.env['omniauth.auth']```, an example could be:
 
-```
+```ruby
 {"provider"=>"bbva",
  "credentials"=>
   {"token"=>"xxxxxx",
@@ -52,12 +52,12 @@ An also the ```refresh_token```method to used once the credentials have expired.
 ### Using Client in Rails
 
 - Include the module
-    ```
+    ```ruby
     include Bbva::Api::V1
     ```
     
 - Instanciate
-    ```
+    ```ruby
       @client = Bbva::Client.new do |config|
         config.client_id      = "YOUR_CLIENT_ID"
         config.secret         = "YOUR_SECRET"
@@ -70,7 +70,7 @@ An also the ```refresh_token```method to used once the credentials have expired.
     ```
     
 - Finally get some data
-```
+```ruby
     #Personal information
     @me        = @client.identity
     #Get all acounts
