@@ -109,10 +109,27 @@ module Bbva
             id ? (data[:card] || {}) : (data[:cards] || [])
           end
 
-        
+          # hasPreApprovedLoan                    Indicates if the client has pre-approved loan. Possible values: [true, false]
+          # loanInstallments                      List of loan installments
+          # loanInstallments[X].id                Type of loan installment. Possible values: [SHORT, MEDIUM, LONG]
+          # loanInstallments[X].period            Wrapper node for period values
+          # loanInstallments[X].period.min        Minimum period. Example: 12
+          # loanInstallments[X].period.max        Maximum period. Example: 96
+          # loanInstallments[X].period.timeUnit   Time unit. Example: MONTH
+          # loanInstallments[X].amount            Wrapper node for amount values
+          # loanInstallments[X].amount.min        Minimum amount. Example: 1500
+          # loanInstallments[X].amount.max        Maximum amount. Example: 30000
+          # loanInstallments[X].amount.currency   Currency used for amount fields. Example: EUR
+
+          def loans
+            url = "#{LOANS_PATH}/pre-approved"
+            data = perform_get(url)
+            data || {}
+          end
+
         end
       end
-    
+
     end
   end
 end
